@@ -1,0 +1,30 @@
+{
+  "name": "@aeres-games/http-bridger",
+  "version": "1.0.0",
+  "description": "An HTTP gateway for forwarding requests to other ports or hosts",
+  "main": "dist/http-bridger.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aeres-Games/http-bridger.git"
+  },
+  "keywords": [
+    "http",
+    "domain",
+    "bridge",
+    "request",
+    "forwarding"
+  ],
+  "author": "Matthieu 'Aeres-Blade' Arques <aeresblade@aeres.games>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Aeres-Games/http-bridger/issues"
+  },
+  "homepage": "https://github.com/Aeres-Games/http-bridger#readme",
+  "devDependencies": {
+    "@types/node": "^11.13.8",
+    "typescript": "^3.4.5"
+  }
+}
