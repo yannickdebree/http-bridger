@@ -2,9 +2,10 @@
   "name": "@aeres-games/http-bridger",
   "version": "1.0.0",
   "description": "An HTTP gateway for forwarding requests to other ports or hosts",
-  "main": "dist/http-bridger.js",
+  "main": "dist/HttpBridger.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "watch": "tsc --watch"
   },
   "repository": {
     "type": "git",
@@ -26,5 +27,9 @@
   "devDependencies": {
     "@types/node": "^11.13.8",
     "typescript": "^3.4.5"
-  }
+  },
+
+  "files": [
+    "dist/**/*"
+  ]
 }
