@@ -5,7 +5,8 @@
   "main": "dist/HttpBridger.js",
   "scripts": {
     "build": "tsc",
-    "watch": "tsc --watch"
+    "watch": "tsc --watch",
+    "clean-build": "rimraf ./dist && tsc"
   },
   "repository": {
     "type": "git",
@@ -26,9 +27,9 @@
   "homepage": "https://github.com/Aeres-Games/http-bridger#readme",
   "devDependencies": {
     "@types/node": "^11.13.8",
+    "rimraf": "^2.6.3",
     "typescript": "^3.4.5"
   },
-
   "files": [
     "dist/**/*"
   ]
