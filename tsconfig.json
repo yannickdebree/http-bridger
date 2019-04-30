@@ -13,9 +13,9 @@
 		]
 	},
 
-	"files":
+	"include":
 	[
-		"src/HttpBridger.ts"
+		"src/**/*"
 	],
 
 	"exclude":
