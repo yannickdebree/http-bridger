@@ -26,7 +26,7 @@ describe('ProtocolIdentifier', function()
 
 	it('throws ParseError if containing wildcards while allowWildcards = false', function()
 	{
-		expect(ProtocolIdentifier.fromStringArray.bind(ProtocolIdentifier, ['**'], false)).to.throw(ParseError, 'Protocol string mustn\'t contain wilcards');
+		expect(ProtocolIdentifier.fromStringArray.bind(ProtocolIdentifier, ['*s'], false)).to.throw(ParseError, 'Protocol string mustn\'t contain wilcards');
 	});
 
 	it('allows and matches http, https, ws and wss protocols', function()
@@ -50,10 +50,10 @@ describe('ProtocolIdentifier', function()
 
 	it('matches protocols with wildcards correctly', function()
 	{
-		let protocolIdentifier = ProtocolIdentifier.fromStringArray(['http*']);
+		let protocolIdentifier = ProtocolIdentifier.fromStringArray(['*']);
 		expect(protocolIdentifier.matches('http')).to.be.true;
-		expect(protocolIdentifier.matches('https')).to.be.true;
-		expect(protocolIdentifier.matches('ws')).to.be.false;
+		expect(protocolIdentifier.matches('https')).to.be.false;
+		expect(protocolIdentifier.matches('ws')).to.be.true;
 		expect(protocolIdentifier.matches('wss')).to.be.false;
 
 		protocolIdentifier = ProtocolIdentifier.fromStringArray(['*s']);
@@ -71,8 +71,8 @@ describe('ProtocolIdentifier', function()
 
 	it('creates well-formed RegExps', function()
 	{
-		const protocolIdentifier = ProtocolIdentifier.fromStringArray(['**']);
-		expect(protocolIdentifier.units[0].tester).to.eql(new RegExp('^(http|ws)s?$'));
+		const protocolIdentifier = ProtocolIdentifier.fromStringArray(['*s']);
+		expect(protocolIdentifier.units[0].tester).to.eql(new RegExp('^(http|ws)s$'));
 	});
 
 	it('works well with multiple protocol values', function()

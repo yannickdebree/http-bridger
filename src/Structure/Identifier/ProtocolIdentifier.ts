@@ -29,14 +29,15 @@ class ProtocolUnit
 	readonly main: string;
 
 	/**
-	 * The secured part of the protocol name ('', 's' or '*').
+	 * The secured part of the protocol name ('' or 's').
 	 */
 	readonly secured: string;
 
 	/**
 	 * @param 	value		The raw protocol string
 	 * @param	tester		A RegExp matcher generated when wildcards are being used
-	 * @param 	secured 	If the protocol is secured or not (null means both allowed)
+	 * @param 	main 		The main part of the protocol name ('http', 'ws' or '*')
+	 * @param 	secured 	The secured part of the protocol name ('' or 's')
 	 */
 	public constructor(value: string, tester: RegExp, main: string, secured: string)
 	{
@@ -97,17 +98,22 @@ export class ProtocolIdentifier
 
 		for(let unit of this.units)
 		{
-			if((unit.main === 'http' || unit.main === '*') && (unit.secured === '' || unit.secured === '*'))
-				protocols.http = true;
+			if(unit.secured === '')
+			{
+				if(unit.main === 'http' || unit.main === '*')
+					protocols.http = true;
 
-			if((unit.main === 'http' || unit.main === '*') && (unit.secured === 's' || unit.secured === '*'))
-				protocols.https = true;
+				if(unit.main === 'ws' || unit.main === '*')
+					protocols.ws = true;
+			}
+			else
+			{
+				if(unit.main === 'http' || unit.main === '*')
+					protocols.https = true;
 
-			if((unit.main === 'ws' || unit.main === '*') && (unit.secured === '' || unit.secured === '*'))
-				protocols.ws = true;
-
-			if((unit.main === 'ws' || unit.main === '*') && (unit.secured === 's' || unit.secured === '*'))
-				protocols.wss = true;
+				if(unit.main === 'ws' || unit.main === '*')
+					protocols.wss = true;
+			}
 		}
 
 		return Object.keys(protocols);
@@ -127,20 +133,19 @@ export class ProtocolIdentifier
 
 		for(let protocol of protocols)
 		{
-			let matches: RegExpMatchArray = protocol.match(/^(http|ws|\*)(s|\*|)$/);
+			let matches: RegExpMatchArray = protocol.match(/^(http|ws|\*)(s||)$/);
 
 			if(matches === null)
 				throw new ParseError('Invalid protocol string value');
 
 			let regexStr: string = null;
 
-			if(matches[1] === '*' || matches[2] === '*')
+			if(matches[1] === '*')
 			{
 				if(!allowWildcards)
 					throw new ParseError('Protocol string mustn\'t contain wilcards');
 
-				regexStr = 	(matches[1] === '*' ? '(http|ws)' : matches[1]) + 
-							(matches[2] === '*' ? 's?' : matches[2]);
+				regexStr = 	(matches[1] === '*' ? '(http|ws)' : matches[1]) + matches[2];
 			}
 
 			units.push(new ProtocolUnit(protocol, regexStr === null ? null : new RegExp('^' + regexStr + '$'), matches[1], matches[2]));
